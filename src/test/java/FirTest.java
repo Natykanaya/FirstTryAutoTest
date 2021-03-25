@@ -2,6 +2,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.testng.Assert;
 import org.testng.annotations.Test;
 
 
@@ -11,23 +12,22 @@ public class FirTest {
         System.setProperty("webdriver.chrome.driver","chromedriver_win32/chromedriver.exe");
         WebDriver driver = new ChromeDriver();
         driver.manage().window().maximize();
-        driver.get("https://www.google.com/");
+        driver.get("https://rozetka.com.ua/");
 
-        String searchFieldXpath = "/html/body/div[1]/div[3]/form/div[1]/div[1]/div[1]/div/div[2]/input";
+       // String searchText = "Монитор";
 
-        WebElement searchElement = driver.findElement(By.xpath(searchFieldXpath));
-        searchElement.sendKeys("softserve it academy");
-        searchElement.submit();
+        WebElement searchElement = driver.findElement(By.xpath("//input[@name='search']"));
+        searchElement.sendKeys("Монитор");
 
-        String searchUrl = "//*[@id=\"rso\"]/div/div[1]/div/div[1]/a/div/cite";
+        WebElement searchButton= driver.findElement(By.cssSelector(".button.search-form__submit"));
+        searchButton.click();
 
-        WebElement adsList= driver.findElement(By.xpath(searchUrl));
+        WebElement firstProdElem= driver.findElement(By.("/html/body/app-root/div/div[1]/rz-category/div/main/rz-catalog/div/div/section/rz-grid/ul/li[1]/app-goods-tile-default/div/div[2]/a[2]"));
+        String actualRes = firstProdElem.getText();
+        System.out.println(actualRes);
+        Assert.assertTrue(actualRes.contains("Монитор"));
 
-        adsList.click();
-        System.out.println(adsList);
-       /* String searchUrl = "//*[@id=\"rso\"]/div/div[1]/div/div[1]/a/h3";
-        WebElement searchUurl = driver.findElement(By.xpath(searchUrl));
-        searchElement.submit();*/
+
         driver.quit();
     }
 }
